@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>chyssm 的博客 by chenyi1212</title>
+    <title>JavaScript by chenyi1212</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,7 +11,7 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">chyssm 的博客</h1>
+      <h1 class="project-name">JavaScript</h1>
       <h2 class="project-tagline">chyssm 的博客</h2>
       <a href="https://github.com/chenyi1212/chyssm.github.io" class="btn">View on GitHub</a>
       <a href="https://github.com/chenyi1212/chyssm.github.io/zipball/master" class="btn">Download .zip</a>
@@ -19,13 +19,662 @@
     </section>
 
     <section class="main-content">
-      <h1>
-<a id="chyssmgithubio" class="anchor" href="#chyssmgithubio" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>chyssm.github.io</h1>
+      <p>需要注意的是，这篇文章中的代码片段都在最新的Google Chrome（版本号30）上测试过，它使用V8 JavaScript引擎（V8 3.20.17.15）</p>
 
-<p>CHYSSM blog</p>
+<p>1 – 在第一次给一个变量赋值的时候不要忘记使用var关键字</p>
+
+<p>给一个未定义的变量赋值会导致创建一个全局变量。要避免全局变量。</p>
+
+<p>2 – 使用===，而不是＝＝</p>
+
+<p>==（或!=）操作符在需要的时候会自动执行类型转换。===（或!==）操作不会执行任何转换。它将比较值和类型，而且在速度上也被认为优于==。</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+[10] === 10    // is false
+[10]  == 10    // is true
+'10'== 10     // is true
+'10'=== 10    // is false
+ []   == 0     // is true
+ [] ===  0     // is false
+ ''== false   // is true but true == "a" is false
+ ''===   false// is false
+3 – 使用闭包实现私有变量（译者添加）</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+functionPerson(name, age) {
+    this.getName = function() { returnname; };
+    this.setName = function(newName) { name = newName; };
+    this.getAge = function() { returnage; };
+    this.setAge = function(newAge) { age = newAge; };</p>
+
+<pre><code>//未在构造函数中初始化的属性
+varoccupation;
+this.getOccupation = function() { returnoccupation; };
+this.setOccupation = function(newOcc) { occupation = 
+                     newOcc; };
+</code></pre>
+
+<p>}
+4 – 在语句结尾处使用分号</p>
+
+<p>在语句结尾处使用分号是一个很好的实践。如果你忘记写了你也不会被警告，因为多数情况下JavaScript解释器会帮你加上分号。</p>
+
+<p>5 – 创建对象的构造函数</p>
+
+<p>1
+2
+3
+4
+5
+6
+functionPerson(firstName, lastName){
+    this.firstName =  firstName;
+    this.lastName = lastName;
+}</p>
+
+<p>varSaad = newPerson("Saad", "Mousliki");
+6 – 小心使用typeof、instanceof和constructor</p>
+
+<p>1
+2
+3
+4
+vararr = ["a", "b", "c"];
+typeofarr;   // return "object"
+arr  instanceofArray// true
+arr.constructor();  //[]
+7 – 创建一个自调用函数（Self-calling Funtion）</p>
+
+<p>这个经常被称为自调用匿名函数（Self-Invoked Anonymous Function）或者即时调用函数表达式（IIFE-Immediately Invoked Function Expression)。这是一个在创建后立即自动执行的函数，通常如下：</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+(function(){
+    // some private code that will be executed automatically
+})();
+(function(a,b){
+    varresult = a+b;
+    returnresult;
+})(10,20)
+8- 从数组中获取一个随机项</p>
+
+<p>1
+2
+3
+varitems = [12, 548, 'a', 2, 5478, 'foo', 8852, , 'Doe', 2145, 119];</p>
+
+<p>var  randomItem = items[Math.floor(Math.random() * items.length)];
+9 – 在特定范围内获取一个随机数</p>
+
+<p>这个代码片段在你想要生成测试数据的时候非常有用，比如一个在最小最大值之间的一个随机薪水值。</p>
+
+<p>1
+varx = Math.floor(Math.random() * (max - min + 1)) + min;
+10 – 在0和设定的最大值之间生成一个数字数组</p>
+
+<p>1
+2
+3
+varnumbersArray = [] , max = 100;</p>
+
+<p>for( vari=1; numbersArray.push(i++) &lt; max;);  // numbers = [0,1,2,3 ... 100]
+11 – 生成一个随机的数字字母字符串</p>
+
+<p>1
+2
+3
+4
+5
+functiongenerateRandomAlphaNum(len) {
+    varrdmstring = "";
+    for( ; rdmString.length &lt; len; rdmString  += Math.random().toString(36).substr(2));
+    return  rdmString.substr(0, len);
+}
+【译者注：特意查了一下Math.random()生成0到1之间的随机数，number.toString(36)是将这个数字转换成36进制（0-9，a-z），最后substr去掉前面的“0.”字符串】</p>
+
+<p>12 – 打乱一个数字数组</p>
+
+<p>1
+2
+3
+varnumbers = [5, 458, 120, -215, 228, 400, 122205, -85411];
+numbers = numbers.sort(function(){ returnMath.random() - 0.5});
+/* the array numbers will be equal for example to [120, 5, 228, -215, 400, 458, -85411, 122205]  */
+13 – String的trim函数</p>
+
+<p>在Java、C#、PHP和很多其他语言中都有一个经典的 trim 函数，用来去除字符串中的空格符，而在JavaScript中并没有，所以我们需要在String对象上加上这个函数。</p>
+
+<p>1
+String.prototype.trim = function(){returnthis.replace(/^\s+|\s+$/g, "");};
+【译者注：去掉字符串的前后空格，不包括字符串内部空格】</p>
+
+<p>14 – 附加（append）一个数组到另一个数组上</p>
+
+<p>1
+2
+3
+4
+5
+vararray1 = [12, "foo", {name: "Joe"} , -2458];</p>
+
+<p>vararray2 = ["Doe", 555, 100];
+Array.prototype.push.apply(array1, array2);
+/* array1 will be equal to  [12 , "foo" , {name "Joe"} , -2458 , "Doe" , 555 , 100] */
+【译者注：其实concat可以直接实现两个数组的连接，但是它的返回值是一个新的数组。这里是直接改变array1】</p>
+
+<p>15 – 将arguments对象转换成一个数组</p>
+
+<p>1
+varargArray = Array.prototype.slice.call(arguments);
+【译者注：arguments对象是一个类数组对象，但不是一个真正的数组】</p>
+
+<p>16 – 验证参数是否是数字（number）</p>
+
+<p>1
+2
+3
+functionisNumber(n){
+    return!isNaN(parseFloat(n)) &amp;&amp; isFinite(n);
+}
+17 – 验证参数是否是数组</p>
+
+<p>1
+2
+3
+functionisArray(obj){
+    returnObject.prototype.toString.call(obj) === '[object Array]';
+}
+注意：如果toString()方法被重写了（overridden），你使用这个技巧就不能得到想要的结果了。或者你可以使用：</p>
+
+<p>1
+Array.isArray(obj); // 这是一个新的array的方法
+如果你不在使用多重frames的情况下，你还可以使用 instanceof 方法。但如果你有多个上下文，你就会得到错误的结果。</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+varmyFrame = document.createElement('iframe');
+document.body.appendChild(myFrame);</p>
+
+<p>varmyArray = window.frames[window.frames.length-1].Array;
+vararr = newmyArray(a,b,10); // [a,b,10]</p>
+
+<p>// instanceof will not work correctly, myArray loses his constructor
+// constructor is not shared between frames
+arr instanceofArray; // false
+【译者注：关于如何判断数组网上有不少讨论，大家可以google一下。这篇就写的挺详细的。】</p>
+
+<p>18 – 获取一个数字数组中的最大值或最小值</p>
+
+<p>1
+2
+3
+var  numbers = [5, 458, 120, -215, 228, 400, 122205, -85411];
+varmaxInNumbers = Math.max.apply(Math, numbers);
+varminInNumbers = Math.min.apply(Math, numbers);
+【译者注：这里使用了Function.prototype.apply方法传递参数的技巧】</p>
+
+<p>19 – 清空一个数组</p>
+
+<p>1
+2
+varmyArray = [12, 222, 1000];
+myArray.length = 0; // myArray will be equal to [].
+20 – 不要使用 delete 来删除一个数组中的项。</p>
+
+<p>使用 splice 而不要使用 delete 来删除数组中的某个项。使用 delete 只是用 undefined 来替换掉原有的项，并不是真正的从数组中删除。</p>
+
+<p>不要使用这种方式：</p>
+
+<p>1
+2
+3
+4
+5
+varitems = [12, 548,'a', 2, 5478, 'foo', 8852, , 'Doe',2154, 119];
+items.length; // return 11
+deleteitems[3]; // return true
+items.length; // return 11
+/* items will be equal to [12, 548, "a", undefined × 1, 5478, "foo", 8852, undefined × 1, "Doe", 2154,       119]   */
+而使用：</p>
+
+<p>1
+2
+3
+4
+5
+varitems = [12, 548,'a', 2, 5478, 'foo', 8852, , 'Doe',2154, 119];
+items.length; // return 11
+items.splice(3,1) ;
+items.length; // return 10
+/* items will be equal to [12, 548, "a", 5478, "foo", 8852, undefined × 1, "Doe", 2154,       119]   */
+delete 方法应该被用来删除一个对象的某个属性。</p>
+
+<p>21 – 使用 length 来截短一个数组</p>
+
+<p>跟上面的清空数组的方式类似，我们使用 length 属性来截短一个数组。</p>
+
+<p>1
+2
+varmyArray = [12, 222, 1000, 124, 98, 10];
+myArray.length = 4; // myArray will be equal to [12 , 222 , 1000 , 124].
+此外，如果你将一个数组的 length 设置成一个比现在大的值，那么这个数组的长度就会被改变，会增加新的 undefined 的项补上。 数组的 length 不是一个只读属性。</p>
+
+<p>1
+2
+myArray.length = 10; // the new array length is 10
+myArray[myArray.length - 1] ; // undefined
+22 – 使用逻辑 AND/OR 做条件判断</p>
+
+<p>1
+2
+3
+varfoo = 10;
+foo == 10&amp;&amp; doSomething(); // 等价于 if (foo == 10) doSomething();
+foo == 5|| doSomething(); // 等价于 if (foo != 5) doSomething();
+逻辑 AND 还可以被使用来为函数参数设置默认值</p>
+
+<p>1
+2
+3
+functiondoSomething(arg1){
+    Arg1 = arg1 || 10; // 如果arg1没有被设置的话，Arg1将被默认设成10
+}
+23 – 使用 map() 方法来遍历一个数组里的项</p>
+
+<p>1
+2
+3
+4
+varsquares = [1,2,3,4].map(function(val) {
+    returnval * val;
+});
+// squares will be equal to [1, 4, 9, 16]
+24 – 四舍五入一个数字，保留N位小数</p>
+
+<p>1
+2
+varnum =2.443242342;
+num = num.toFixed(4);  // num will be equal to 2.4432
+25 – 浮点数问题</p>
+
+<p>1
+2
+3
+0.1+ 0.2=== 0.3// is false
+9007199254740992+ 1// is equal to 9007199254740992
+9007199254740992+ 2// is equal to 9007199254740994
+为什么会这样？ 0.1+0.2等于0.30000000000000004。你要知道，所有的JavaScript数字在内部都是以64位二进制表示的浮点数，符合IEEE 754标准。更多的介绍，可以阅读这篇博文。你可以使用 toFixed() 和 toPrecision() 方法解决这个问题。</p>
+
+<p>26 – 使用for-in遍历一个对象内部属性的时候注意检查属性</p>
+
+<p>下面的代码片段能够避免在遍历一个对象属性的时候访问原型的属性</p>
+
+<p>1
+2
+3
+4
+5
+for(varname inobject) {
+    if(object.hasOwnProperty(name)) {
+        // do something with name
+    }
+}
+27 – 逗号操作符</p>
+
+<p>1
+2
+3
+4
+vara = 0;
+varb = ( a++, 99);
+console.log(a);  // a will be equal to 1
+console.log(b);  // b is equal to 99
+28 – 缓存需要计算和查询（calculation or querying）的变量</p>
+
+<p>对于jQuery选择器，我们最好缓存这些DOM元素。</p>
+
+<p>1
+2
+3
+4
+varnavright = document.querySelector('#right');
+varnavleft = document.querySelector('#left');
+varnavup = document.querySelector('#up');
+varnavdown = document.querySelector('#down');
+29 – 在调用 isFinite()之前验证参数</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+isFinite(0/0) ; // false
+isFinite("foo"); // false
+isFinite("10"); // true
+isFinite(10);   // true
+isFinite(undifined);  // false
+isFinite();   // false
+isFinite(null);  // true  !!!
+30 – 避免数组中的负数索引（negative indexes）</p>
+
+<p>1
+2
+3
+varnumbersArray = [1,2,3,4,5];
+varfrom = numbersArray.indexOf("foo") ;  // from is equal to -1
+numbersArray.splice(from,2);    // will return [5]
+确保调用 indexOf 时的参数不是负数。</p>
+
+<p>31 – 基于JSON的序列化和反序列化（serialization and deserialization）</p>
+
+<p>1
+2
+3
+4
+5
+varperson = {name :'Saad', age : 26, department : {ID : 15, name : "R&amp;D"} };
+varstringFromPerson = JSON.stringify(person);
+/* stringFromPerson is equal to "{"name":"Saad","age":26,"department":{"ID":15,"name":"R&amp;D"}}"   <em>/
+varpersonFromString = JSON.parse(stringFromPerson);
+/</em> personFromString is equal to person object  */
+32 – 避免使用 eval() 和 Function 构造函数</p>
+
+<p>使用 eval 和 Function 构造函数是非常昂贵的操作，因为每次他们都会调用脚本引擎将源代码转换成可执行代码。</p>
+
+<p>1
+2
+varfunc1 = newFunction(functionCode);
+varfunc2 = eval(functionCode);
+33 – 避免使用 with()</p>
+
+<p>使用 with() 会插入一个全局变量。因此，同名的变量会被覆盖值而引起不必要的麻烦。</p>
+
+<p>34 – 避免使用 for-in 来遍历一个数组</p>
+
+<p>避免使用这样的方式：</p>
+
+<p>1
+2
+3
+4
+varsum = 0;
+for(vari inarrayNumbers) {
+    sum += arrayNumbers[i];
+}
+更好的方式是：</p>
+
+<p>1
+2
+3
+4
+varsum = 0;
+for(vari = 0, len = arrayNumbers.length; i &lt; len; i++) {
+    sum += arrayNumbers[i];
+}
+附加的好处是，i 和 len 两个变量的取值都只执行了一次，会比下面的方式更高效：</p>
+
+<p>1
+for(vari = 0; i &lt; arrayNumbers.length; i++)
+为什么？因为arrayNumbers.length每次循环的时候都会被计算。</p>
+
+<p>35 – 在调用 setTimeout() 和 setInterval() 的时候传入函数，而不是字符串。</p>
+
+<p>如果你将字符串传递给 setTimeout() 或者 setInterval()，这个字符串将被如使用 eval 一样被解析，这个是非常耗时的。
+不要使用：</p>
+
+<p>1
+2
+setInterval('doSomethingPeriodically()', 1000);
+setTimeOut('doSomethingAfterFiveSeconds()', 5000)
+而用：</p>
+
+<p>1
+2
+setInterval(doSomethingPeriodically, 1000);
+setTimeOut(doSomethingAfterFiveSeconds, 5000);
+36 – 使用 switch/case 语句，而不是一长串的 if/else</p>
+
+<p>在判断情况大于2种的时候，使用 switch/case 更高效，而且更优雅（更易于组织代码）。但在判断的情况超过10种的时候不要使用 switch/case。
+【译者注：查了一下文献，大家可以看一下这篇介绍】</p>
+
+<p>37 – 在判断数值范围时使用 switch/case</p>
+
+<p>在下面的这种情况，使用 switch/case 判断数值范围的时候是合理的：</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+functiongetCategory(age) {
+    varcategory = "";
+    switch(true) {
+        caseisNaN(age):
+            category = "not an age";
+            break;
+        case(age &gt;= 50):
+            category = "Old";
+            break;
+        case(age &lt;= 20):
+            category = "Baby";
+            break;
+        default:
+            category = "Young";
+            break;
+    };
+    returncategory;
+}
+getCategory(5);  // will return "Baby"
+【译者注：一般对于数值范围的判断，用 if/else 会比较合适。 switch/case 更适合对确定数值的判断】</p>
+
+<p>38 – 为创建的对象指定prototype对象</p>
+
+<p>写一个函数来创建一个以指定参数作为prototype的对象是有可能：</p>
+
+<p>1
+2
+3
+4
+5
+6
+functionclone(object) {
+    functionOneShotConstructor(){};
+    OneShotConstructor.prototype= object;
+    returnnewOneShotConstructor();
+}
+clone(Array).prototype ;  // []
+39 – 一个HTML转义函数</p>
+
+<p>1
+2
+3
+4
+5
+6
+functionescapeHTML(text) {
+    varreplacements= {"&lt;": "&lt;", "&gt;": "&gt;","&amp;": "&amp;", "\"": """};
+    returntext.replace(/[&lt;&gt;&amp;"]/g, function(character) {
+        returnreplacements[character];
+    });
+}
+40 – 避免在循环内部使用 try-catch-finally</p>
+
+<p>在运行时，每次当 catch 从句被执行的时候，被捕获的异常对象会赋值给一个变量，而在 try-catch-finally 结构中，每次都会新建这个变量。</p>
+
+<p>避免这样的写法：</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+varobject = ['foo', 'bar'], i;
+for(i = 0, len = object.length; i &lt;len; i++) {
+    try{
+        // do something that throws an exception
+    }
+    catch(e) {
+        // handle exception
+    }
+}
+而使用：</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+varobject = ['foo', 'bar'], i;
+try{
+    for(i = 0, len = object.length; i &lt;len; i++) {
+        // do something that throws an exception
+    }
+}
+catch(e) {
+    // handle exception
+}
+41 – 为 XMLHttpRequests 设置超时。</p>
+
+<p>在一个XHR请求占用很长时间后（比如由于网络问题），你可能需要中止这次请求，那么你可以对XHR调用配套使用 setTimeout()。</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+varxhr = newXMLHttpRequest ();
+xhr.onreadystatechange = function() {
+    if(this.readyState == 4) {
+        clearTimeout(timeout);
+        // do something with response data
+    }
+}
+vartimeout = setTimeout( function() {
+    xhr.abort(); // call error callback
+}, 60<em>1000/</em> timeout after a minute */);
+xhr.open('GET', url, true);  </p>
+
+<p>xhr.send();
+此外，一般你应该完全避免同步的Ajax请求。</p>
+
+<p>42 – 处理WebSocket超时</p>
+
+<p>通常，在一个WebSocket连接创建之后，如果你没有活动的话，服务器会在30秒之后断开（time out）你的连接。防火墙也会在一段时间不活动之后断开连接。</p>
+
+<p>为了防止超时的问题，你可能需要间歇性地向服务器端发送空消息。要这样做的话，你可以在你的代码里添加下面的两个函数：一个用来保持连接，另一个用来取消连接的保持。通过这个技巧，你可以控制超时的问题。</p>
+
+<p>使用一个 timerID：</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+vartimerID = 0;
+functionkeepAlive() {
+    vartimeout = 15000;
+    if(webSocket.readyState == webSocket.OPEN) {
+        webSocket.send('');
+    }
+    timerId = setTimeout(keepAlive, timeout);
+}
+functioncancelKeepAlive() {
+    if(timerId) {
+        cancelTimeout(timerId);
+    }
+}
+keepAlive()方法应该被添加在webSOcket连接的 onOpen() 方法的最后，而 cancelKeepAlive() 添加在 onClose() 方法的最后。</p>
+
+<p>43 – 牢记，原始运算符始终比函数调用要高效。使用VanillaJS。</p>
+
+<p>举例来说，不使用：</p>
+
+<p>1
+2
+varmin = Math.min(a,b);
+A.push(v);
+而用：</p>
+
+<p>1
+2
+varmin = a &lt; b ? a b;
+A[A.length] = v;
+44 – 编码的时候不要忘记使用代码整洁工具。在上线之前使用JSLint和代码压缩工具（minification）（比如JSMin）。《省时利器：代码美化与格式化工具》</p>
+
+<p>45 – JavaScript是不可思议的。最好的JavaScript学习资源。</p>
 
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/chenyi1212/chyssm.github.io">chyssm 的博客</a> is maintained by <a href="https://github.com/chenyi1212">chenyi1212</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/chenyi1212/chyssm.github.io">JavaScript</a> is maintained by <a href="https://github.com/chenyi1212">chenyi1212</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
